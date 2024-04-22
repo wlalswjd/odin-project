@@ -76,22 +76,44 @@ let playerWin = 0;
 let computerWin = 0;
 let tie = 0;
 
-function playGame() {
-    const playerSelection = prompt("Choice");
+function playGame(playerChoice) {
     const computerSelection = getComputerChoice();
-    alert(computerSelection);
-    alert(playRound(playerSelection, computerSelection) + ". Player: " + playerWin + ", computer: " + computerWin + ", tie: " + tie);
-}
-
-for (let index = 0; index < 5; index++) {
-    playGame();
-    if (index === 4) {
-        if (playerWin > computerWin) {
-            alert("Player won.");
-        } else if (playerWin === computerWin) {
-            alert("Draw!");
-        } else {
-            alert("Computer won.");
-        }
+    winner.textContent = playRound(playerChoice, computerSelection) + ". Player: " + playerWin + ", computer: " + computerWin + ", tie: " + tie;
+    if (playerWin === 5 || computerWin === 5) {
+        announceResult();
+        playerWin = 0;
+        computerWin = 0;
+        tie = 0;
     }
 }
+
+function announceResult() {
+    if (playerWin > computerWin) {
+        const para = document.createTextNode(" Player won.");
+        winner.appendChild(para);
+    } else if (playerWin === computerWin) {
+        const para = document.createTextNode(" Draw!");
+        winner.appendChild(para);
+    } else {
+        const para = document.createTextNode(" Computer won.");
+        winner.appendChild(para);
+    }
+}
+
+const choice = document.querySelector("#choice");
+const winner = document.querySelector(".winner");
+
+choice.addEventListener("click", (e) => {
+    const target = e.target;
+    switch (target.id) {
+        case 'rock':
+            playGame("Rock");
+            break;
+        case 'paper':
+            playGame("Paper");
+            break;
+        case 'scissors':
+            playGame("Scissors");
+            break;
+    }
+})
